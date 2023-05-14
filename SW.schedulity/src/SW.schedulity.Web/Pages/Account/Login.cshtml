@@ -1,0 +1,48 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@using Volo.Abp.Account.Settings
+@using Volo.Abp.Account.Web.Pages.Account;
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming;
+@using Volo.Abp.Identity;
+@using Volo.Abp.Settings
+@model Volo.Abp.Account.Web.Pages.Account.LoginModel
+@inject IHtmlLocalizer<AccountResource> L
+@inject IThemeManager ThemeManager
+@inject Volo.Abp.Settings.ISettingProvider SettingProvider
+
+@{
+    Layout = ThemeManager.CurrentTheme.GetAccountLayout();
+}
+
+@section scripts
+    {
+    <abp-script-bundle name="@typeof(LoginModel).FullName">
+        <abp-script src="/Pages/Account/Login.js" />
+    </abp-script-bundle>
+}
+
+<form method="post">
+    <div class="d-flex justify-content-center mx-auto">
+        <div class="content">
+            <h1 class="text-dark text-center">Sign in</h1>
+            <div class="content-card card bg-black">
+                <input asp-for="LoginInput.UserNameOrEmailAddress" class="Pmail" placeholder="Email or class number">
+                <span asp-validation-for="LoginInput.UserNameOrEmailAddress" class="text-danger"></span>
+                <input autocomplete="new-password" maxlength="@IdentityUserConsts.MaxPasswordLength" asp-for="LoginInput.Password" type="password" class="password" placeholder="Password">
+                <span asp-validation-for="LoginInput.Password"></span>
+                <div class="rememberme mx-5 mb-3">
+                    <label class="checkboxContainer">
+                        <input asp-for="LoginInput.RememberMe" type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                    <span>Remember me</span>
+                </div>
+                <input type="submit" class="submit btn btn-light mx-auto" value="Login">
+                <span class="signup text-white mx-auto">
+                    Don't you have an account? <a href="@Url.Page("./Register", new {returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash})" class="text-white">Sign up</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</form>

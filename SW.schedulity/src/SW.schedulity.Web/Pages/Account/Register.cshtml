@@ -1,0 +1,23 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@model Volo.Abp.Account.Web.Pages.Account.RegisterModel
+@inject IHtmlLocalizer<AccountResource> L
+
+<form method="post">
+    <div class="d-flex justify-content-center mx-auto">
+        <div class="content">
+            <h1 class="text-dark text-center">Sign up</h1>
+            <div class="content-card card bg-black">
+                <input asp-for="Input.EmailAddress" type="email" class="Pmail" placeholder="Email">
+                <input auto-focus="true" asp-for="Input.UserName" class="classNumber" placeholder="Class Number">
+                <input asp-for="Input.Password" type="password" class="password" placeholder="Password">
+                <input type="submit" class="submit btn btn-light mx-auto" value="Get started!">
+                <strong style="color: #fff;text-align:center;">
+                    @L["AlreadyRegistered"]
+                    <a href="@Url.Page("./Login", new {returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash})" class="text-decoration-none text-white fw-bold">@L["Login"]</a>
+                </strong>
+            </div>
+        </div>
+    </div>
+</form>

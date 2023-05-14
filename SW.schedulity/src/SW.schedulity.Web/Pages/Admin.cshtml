@@ -1,0 +1,248 @@
+﻿@page
+@model SW.schedulity.Web.Pages.AdminModel
+@{
+}
+<div class="row">
+    <div class="col-md-7">
+        <div class="profile bg-gray radius">
+            <div class="row align-items-end bg-gray">
+                <div class="col-md-6">
+                    <div class="welcoming">
+                        <span>
+                            Hello Boss!
+                        </span>
+                        <br>
+                        it's good to see you again
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img class="man-img" src="images/MAN.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="d-flex p-2 justify-content-evenly">
+            <div class="align-items-center bg-gray col-md-5 courses-details d-flex justify-content-lg-around radius">
+                <span class="num">@Model.UsersCount</span>
+                <span class="detail">
+                    Schedulity<br>  Users
+                </span>
+            </div>
+            <div class="align-items-center bg-gray col-md-5 courses-details d-flex justify-content-lg-around radius">
+                <span class="num">208</span>
+                <span class="detail">
+                    Schedule<br> Generated
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="controls mt-5">
+        <p>
+            <span>Courses &nbsp;&nbsp;&nbsp;</span>
+        </p>
+    </div>
+</div>
+<div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                <p>Obligatory University Requirements</p>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <div class="courseHours">
+                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <span>18h</span>
+                </div>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+            </button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="Course">
+                    efwefwefwefwefwefwefwef
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne2">
+            <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne2" aria-expanded="false" aria-controls="flush-collapseOne2">
+                <p>Elective University Requirements</p>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <div class="courseHours">
+                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <span>9h</span>
+                </div>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp
+
+            </button>
+        </h2>
+        <div id="flush-collapseOne2" class="accordion-collapse collapse" aria-labelledby="flush-headingOne2" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="Course">
+                    efwefwefwefwefwefwefwef
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne3">
+            <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne3" aria-expanded="false" aria-controls="flush-collapseOne3">
+                <p>Obligatory Faculty Requirements</p>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <div class="courseHours">
+                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <span>24h</span>
+                </div>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp
+
+            </button>
+        </h2>
+        <div id="flush-collapseOne3" class="accordion-collapse collapse" aria-labelledby="flush-headingOne3" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="Course">
+                    efwefwefwefwefwefwefwef
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne4">
+            <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne4" aria-expanded="false" aria-controls="flush-collapseOne4">
+                <p>Obligatory Specialiaztion Requirements</p>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <div class="courseHours">
+                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <span>69h</span>
+                </div>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+            </button>
+        </h2>
+        <div id="flush-collapseOne4" class="accordion-collapse collapse" aria-labelledby="flush-headingOne4" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="Course">
+                    efwefwefwefwefwefwefwef
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne5">
+            <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne5" aria-expanded="false" aria-controls="flush-collapseOne5">
+                <p>Elective Specialiaztion Requirements</p>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp  &nbsp
+                <div class="courseHours">
+                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <span>12h</span>
+                </div>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+            </button>
+        </h2>
+        <div id="flush-collapseOne5" class="accordion-collapse collapse" aria-labelledby="flush-headingOne5" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="Course">
+                    efwefwefwefwefwefwefwef
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne6">
+            <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne6" aria-expanded="false" aria-controls="flush-collapseOne6">
+                <p>General Requirements</p>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp  &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp  &nbsp
+                <div class="courseHours">
+                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <span>0h</span>
+                </div>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp
+
+            </button>
+        </h2>
+        <div id="flush-collapseOne6" class="accordion-collapse collapse" aria-labelledby="flush-headingOne6" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="Course">
+                    <input type="text" value="Computer skills">
+
+                    <div class="Hours">
+                        <img src="images/clock.png" style="height:20px;" alt="">
+
+                        <input style="width:50px;" type="text" value="0h">
+
+                    </div>
+                    <div class="delete">
+                        <img src="images/X-black.png" style="height: 20px;" alt="">
+                    </div>
+                </div>
+                <div class="Course">
+                    <input type="text" value="English 99">
+
+                    <div class="Hours">
+                        <img src="images/clock.png" style="height:20px;" alt="">
+                        <input style="width:50px;" type="text" value="0h">
+
+                    </div>
+                    <div class="delete">
+                        <img src="images/X-black.png" style="height: 20px;" alt="">
+                    </div>
+                </div>
+                <div class="Course">
+                    <input type="text" value="Arabic 100">
+
+                    <div class="Hours">
+                        <img src="images/clock.png" style="height:20px;" alt="">
+                        <input style="width:50px;" type="text" value="0h">
+
+                    </div>
+                    <div class="delete">
+                        <img src="images/X-black.png" style="height: 20px;" alt="">
+                    </div>
+                </div>
+                <div class="Course">
+                    <input type="text" value="Arabic 99">
+                    <div class="Hours">
+                        <img src="images/clock.png" style="height:20px;" alt="">
+                        <input style="width:50px;" type="text" value="0h">
+
+                    </div>
+                    <div class="delete">
+                        <img src="images/X-black.png" style="height: 20px;" alt="">
+                    </div>
+                </div>
+                <div class="Course">
+                    <input type="text" value="English 100">
+                    <div class="Hours">
+                        <img src="images/clock.png" style="height:20px;" alt="">
+                        <input style="width:50px;" type="text" value="0h">
+
+                    </div>
+                    <div class="delete">
+                        <img src="images/X-black.png" style="height: 20px;" alt="">
+                    </div>
+                </div>
+                <div class="plus" style="margin-left: 45%;">
+                    <img src="images/+.png" style="height: 50px;" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
