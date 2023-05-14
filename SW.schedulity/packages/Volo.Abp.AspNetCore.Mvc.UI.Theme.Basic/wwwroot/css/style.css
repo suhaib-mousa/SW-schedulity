@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&display=swap'); 
+body{
+    padding: 0;
+    margin: 0;
+    font-family: 'Baloo Bhai 2', cursive;
+}
+.content{
+    width: 35%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 20%);
+}
+
+.content input{
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.content-card {
+    border-radius: 25px;
+    box-shadow: 0 0 10px #858585;
+    padding: 3rem;
+}
+
+.content-card input{
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+::placeholder {
+    font-size: 30px;
+}
+
+.submit{
+    font-size: 30px;
+    width: 40%;
+    border: none;
+    border-radius: 15px !important;
+    padding: 5px !important;
+}
+
+.rememberme span{
+    color: white;
+    font-size: 25px;
+    margin-left: 2rem;
+}
+
+.checkboxContainer {
+    position: relative;
+    padding-left: 45px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .checkboxContainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    background-color: #fff;
+    border: 3px solid;
+    border-radius: 6px;
+  }
+  
+  .checkboxContainer:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  .checkboxContainer input:checked ~ .checkmark {
+      
+    background-color: #000;
+    border: 3px solid;
+    border-radius: 6px;
+}
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .checkboxContainer input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  .checkboxContainer .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .signup{
+    font-size: 20px;
+  }
+
+.navigation {
+    position: fixed;
+    width: 150px;
+    z-index: 1;
+}
+
+  .menu{
+    border-radius: 20px;
+    box-shadow: 6px 0px 31px #888686;
+  }
+.menu-list {
+    font-size: 24px;
+    list-style: none;
+}
+
+  .menu-list i{
+    padding: 20px 0 20px 0;
+  }
+
+  .welcoming span{
+    font-size: 30px;
+  }
+  .bg-gray{
+    background: #f5f5f7;
+  }
+  .radius{
+    border-radius: 20px !important;
+  }
+  .profile{
+    height: 161px;
+    padding: 0 20px 0 20px;
+  }
+
+  .welcoming{
+    margin-top: 77px;
+  }
+
+  .man-img{
+    height: 190px;
+    position: absolute;
+    margin-top: -175px;
+  }
+
+  .num{
+    font-size: 50px;
+    padding: 9px;
+  }
+
+  .controls p span{
+    font-size: 24px;
+  }
+
+  .controls .numberOfHours{
+    width: 75px;
+    border: 5px solid;
+    margin: 0 9px;
+  }
+
+  .Course{
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    border: 2px solid;
+    padding: 20px;
+    margin-left: 10%;
+    border-radius: 18px;
+    margin-bottom: 1rem;
+  }
+
+  .rating{
+    font-size: 35px;
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+
+  }
+
+  .ModalTitle{
+    color: #fff;
+    margin-left: 7rem;
+  }
+
+  .Course-selected{
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    margin-left: 10%;
+    margin-bottom: 1rem;
+  }
+
+  .Course-selected:nth-child(odd){
+    background: #f5f5f7;
+  }
+
+  .print{
+    width: 40%;
+    border-radius: 40px;
+    color: white;
+    font-size: 30px;
+    transform: translateX(75%);
+    margin-top: 23px;
+    margin-bottom: 23px;
+  }
+
+
+.dropdown-toggle::after{
+    display: none;
+}
+
+i.fa.fa-sign-out.fa-rotate-180 {
+    margin-top: 150px;
+}

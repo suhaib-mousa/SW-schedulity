@@ -1,0 +1,20 @@
+﻿@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Brand
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Menu
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Toolbar
+
+<div class="navigation navbar" id="main-navbar" style="min-height: 4rem;">
+    <div class="menu bg-black p-4 m-3 d-flex flex-column ">
+        @(await Component.InvokeAsync<MainNavbarBrandViewComponent>())
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#main-navbar-collapse" aria-controls="main-navbar-collapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        @*<div class="collapse navbar-collapse" id="main-navbar-collapse">*@
+
+        <ul class="menu-list mt-5 d-flex flex-column align-items-center p-0">
+            @(await Component.InvokeAsync<MainNavbarMenuViewComponent>())
+        </ul>
+        @*</div>*@
+    </div>
+</div>
