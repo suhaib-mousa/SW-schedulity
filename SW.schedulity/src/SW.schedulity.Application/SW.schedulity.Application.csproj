@@ -23,4 +23,9 @@
     <PackageReference Include="Volo.CmsKit.Application" Version="7.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Schedules\" />
+    <Folder Include="Sections\" />
+  </ItemGroup>
+
 </Project>
