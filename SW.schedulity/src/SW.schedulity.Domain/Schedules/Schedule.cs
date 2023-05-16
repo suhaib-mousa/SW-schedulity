@@ -8,7 +8,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace SW.schedulity.Schedules
 {
-    public class Shcedule : Entity<Guid>
+    public class Schedule : Entity<Guid>
     {
         public List<Course> Courses { get; set; }
         public string ShceduleTitle { get; set; }

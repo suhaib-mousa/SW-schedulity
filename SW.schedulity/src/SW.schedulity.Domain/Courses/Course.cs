@@ -16,7 +16,7 @@ namespace SW.schedulity.Courses
         public int order { get; set; }
         public bool IsPassed { get; set; }
         public Section Section { get; set; }
-        public List<Shcedule> Shcedules { get; set; }
+        public List<Schedule> Shcedules { get; set; }
         public CourseType CourseType { get; set; }
     }
 }

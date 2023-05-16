@@ -1,9 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using SW.schedulity.Courses;
+using SW.schedulity.Schedules;
+using SW.schedulity.Sections;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -84,5 +88,24 @@ public class schedulityDbContext :
         //    //...
         //});
         builder.ConfigureCmsKit();
-        }
+
+        builder.Entity<Section>(b =>
+        {
+            b.ToTable(schedulityConsts.DbTablePrefix + nameof(Section), schedulityConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
+
+
+        builder.Entity<Course>(b =>
+        {
+            b.ToTable(schedulityConsts.DbTablePrefix + nameof(Course), schedulityConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<Schedule>(b =>
+        {
+            b.ToTable(schedulityConsts.DbTablePrefix + nameof(Schedule), schedulityConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
+    }
 }
