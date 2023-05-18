@@ -227,3 +227,7 @@ body{
 i.fa.fa-sign-out.fa-rotate-180 {
     margin-top: 150px;
 }
+
+.pointer{
+    cursor: pointer;
+}

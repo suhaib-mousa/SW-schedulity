@@ -1,5 +1,5 @@
 ﻿@page
-@model SW.schedulity.Web.Pages.AdminModel
+@model SW.schedulity.Web.Pages.Admin.IndexModel
 @{
 }
 <div class="row">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <img class="man-img" src="images/MAN.png" alt="">
+                    <img class="man-img" src="~/images/MAN.png" alt="">
                 </div>
             </div>
         </div>
@@ -30,7 +30,8 @@
                 </span>
             </div>
             <div class="align-items-center bg-gray col-md-5 courses-details d-flex justify-content-lg-around radius">
-                <span class="num">208</span>
+                @*TODO: Get the count of the schedules*@
+                <span class="num">@Model.SchedulesCount</span>
                 <span class="detail">
                     Schedule<br> Generated
                 </span>
@@ -39,13 +40,14 @@
     </div>
 </div>
 <div class="row">
-    <div class="controls mt-5">
+    <div class="controls mt-5 d-flex justify-content-between">
         <p>
-            <span>Courses &nbsp;&nbsp;&nbsp;</span>
+            <span>Courses</span>
         </p>
+        <button class="btn btn-dark" id="CreateSection">Create Section</button>
     </div>
 </div>
-<div class="accordion accordion-flush" id="accordionFlushExample">
+@*<div class="accordion accordion-flush" id="accordionFlushExample">
     <div class="accordion-item">
         <h2 class="accordion-header" id="flush-headingOne">
             <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -53,7 +55,7 @@
                 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                 <div class="courseHours">
-                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <img src="~/images/clock.png" style="height:20px;" alt="">
                     <span>18h</span>
                 </div>
                 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
@@ -76,7 +78,7 @@
                 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                 <div class="courseHours">
-                    <img src="images/clock.png" style="height:20px;" alt="">
+                    <img src="~/images/clock.png" style="height:20px;" alt="">
                     <span>9h</span>
                 </div>
                 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
@@ -246,3 +248,9 @@
         </div>
     </div>
 </div>
+*@
+<div id="dataAccordion" class="accordion accordion-flush"></div>
+@section scripts
+    {
+    <abp-script src="/Pages/Admin/index.js" />
+}

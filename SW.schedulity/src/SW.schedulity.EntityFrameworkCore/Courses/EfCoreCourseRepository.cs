@@ -15,5 +15,10 @@ namespace SW.schedulity.Courses
         public EfCoreCourseRepository(IDbContextProvider<schedulityDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+        public override async Task<IQueryable<Course>> GetQueryableAsync()
+        {
+            var x = (await base.GetQueryableAsync()).IncludeDetails();
+            return x;
+        }
     }
 }

@@ -13,5 +13,9 @@ namespace SW.schedulity.Courses
         public CourseAppService(IRepository<Course, Guid> repository) : base(repository)
         {
         }
+        public override Task<CourseDto> CreateAsync(CourseDto input)
+        {
+            return base.CreateAsync(input);
+        }
     }
 }

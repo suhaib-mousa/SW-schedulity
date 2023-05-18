@@ -1,0 +1,21 @@
+﻿@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal;
+@model SW.schedulity.Web.Pages.Admin.Courses.EditModalModel
+@{
+    Layout = null;
+}
+
+<form asp-page="/Admin/Courses/EditModal">
+    <abp-modal>
+        <abp-modal-header title="Edit"></abp-modal-header>
+        <abp-modal-body>
+            <input hidden asp-for="Id" />
+            <input hidden asp-for="Course.Section.Id" />
+            <abp-input asp-for="Course.Title" />
+            <abp-input asp-for="Course.NumberOfHours" min="0" step="3" />
+            <abp-input asp-for="Course.order" min="0" />
+            <abp-select asp-for="Course.CourseType" />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

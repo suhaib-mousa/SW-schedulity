@@ -11,7 +11,7 @@ public class IndexModel : schedulityPageModel
     {
         if (CurrentUser.IsInRole("admin"))
         {
-            return Redirect("/Admin");
+            return Redirect("/Admin/Index");
         }
         return Page();
     }
