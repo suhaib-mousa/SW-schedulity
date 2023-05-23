@@ -32,38 +32,29 @@ $(function () {
         editSectionModal.open({ id: $(this).closest('.accordion-item').data('section-id') });
     });
 
+    $(document).on('click', '.edit-course', function (e) {
+        e.preventDefault();
+        editCourseModal.open({ id: $(this).closest('.course-actions').data('course-id') });
+    });
+
     
 
     $(document).on('click', '.delete-section', function (e) {
         e.preventDefault();
         var sectionId = $(this).closest('.accordion-item').data('section-id');
-        deleteSection(sectionId);
+        deleteSection(sectionId).
+            then(function () {
+                CreateAccordion();
+            });
     });
 
     var createCourseModal = new abp.ModalManager(abp.appPath + 'Admin/Courses/CreateModal');
+    var editCourseModal = new abp.ModalManager(abp.appPath + 'Admin/Courses/EditModal');
 
     $(document).on('click', '.create-course', function (e) {
         e.preventDefault();
         createCourseModal.open({ sectionId: $(this).closest('.accordion-item').data('section-id') });
     });
-    //var createCourseModal = new abp.ModalManager(abp.appPath + 'Admin/Courses/CreateModal');
-    //var editCourseModal = new abp.ModalManager(abp.appPath + 'Admin/Courses/EditModal');
-    //var deleteCourse = function (id) {
-    //    abp.message.confirm(
-    //        l('AreYouSureToDeleteThisCourse'), 
-    //        function (result) {
-    //            if (result) { 
-    //                CourseService.delete(id)
-    //                    .then(function () {
-    //                        abp.notify.info(
-    //                            l('SuccessfullyDeleted')
-    //                        );
-    //                        CreateAccordion();
-    //                    });
-    //            }
-    //        }
-    //    );
-    //};
 
     var CreateAccordion = async function () {
         var getSections = function () {
@@ -173,6 +164,13 @@ $(function () {
         CreateAccordion();
     });
     createSectionModal.onResult(function () {
+        CreateAccordion();
+    });
+
+    createCourseModal.onResult(function () {
+        CreateAccordion();
+    });
+    editCourseModal.onResult(function () {
         CreateAccordion();
     });
 });

@@ -10,6 +10,7 @@
         <abp-modal-header title="Edit"></abp-modal-header>
         <abp-modal-body>
             <input hidden asp-for="Id" />
+            <input hidden asp-for="Course.Id" />
             <input hidden asp-for="Course.Section.Id" />
             <abp-input asp-for="Course.Title" />
             <abp-input asp-for="Course.NumberOfHours" min="0" step="3" />
