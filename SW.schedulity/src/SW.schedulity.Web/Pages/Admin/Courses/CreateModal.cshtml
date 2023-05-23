@@ -9,7 +9,7 @@
     <abp-modal>
         <abp-modal-header title="Create"></abp-modal-header>
         <abp-modal-body>
-            <input hidden asp-for="SectionId" />
+            <input hidden asp-for="Course.SectionId"  value="@Model.SectionId"/>
             <abp-input type="text" asp-for="Course.Title" />
             <abp-input asp-for="Course.NumberOfHours" min="0" step="3" max="3" />
             <abp-input asp-for="Course.order" min="0" />

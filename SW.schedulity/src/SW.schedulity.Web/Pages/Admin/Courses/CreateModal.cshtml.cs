@@ -27,7 +27,7 @@ public class CreateModalModel : PageModel
     }
     public async Task OnPost()
     {
-        Course.Section = await SectionAppService.GetAsync(id: SectionId);
+        var x = Course.SectionId;
         await CourseAppService.CreateAsync(Course);
     }
 }

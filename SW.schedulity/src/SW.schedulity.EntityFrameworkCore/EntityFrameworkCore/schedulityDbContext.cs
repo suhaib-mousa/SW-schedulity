@@ -107,5 +107,11 @@ public class schedulityDbContext :
             b.ToTable(schedulityConsts.DbTablePrefix + nameof(Schedule), schedulityConsts.DbSchema);
             b.ConfigureByConvention();
         });
+
+        builder.Entity<UserCourses.UserCourse>(b =>
+        {
+            b.HasKey(e => new { e.UserId, e.CourseId });
+            b.ConfigureByConvention();
+        });
     }
 }
