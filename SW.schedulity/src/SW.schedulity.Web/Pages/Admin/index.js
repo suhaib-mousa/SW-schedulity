@@ -22,6 +22,23 @@ $(function () {
         );
     };
 
+    var deleteCourse = function (id) {
+        abp.message.confirm(
+            l('AreYouSureToDeleteThisCourse'), 
+            function (result) {
+                if (result) { 
+                    CourseService.delete(id)
+                        .then(function () {
+                            abp.notify.info(
+                                l('SuccessfullyDeleted')
+                            );
+                            CreateAccordion();
+                        });
+                }
+            }
+        );
+    };
+
     $("#CreateSection").click(function (e) {
         e.preventDefault();
         createSectionModal.open({});
@@ -43,6 +60,15 @@ $(function () {
         e.preventDefault();
         var sectionId = $(this).closest('.accordion-item').data('section-id');
         deleteSection(sectionId).
+            then(function () {
+                CreateAccordion();
+            });
+    });
+
+    $(document).on('click', '.delete-course', function (e) {
+        e.preventDefault();
+        var courseId = $(this).closest('.course-actions').data('course-id');
+        deleteCourse(courseId).
             then(function () {
                 CreateAccordion();
             });
