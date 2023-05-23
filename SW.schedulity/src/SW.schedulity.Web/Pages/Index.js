@@ -1,3 +1,6 @@
 $(function () {
-    abp.log.debug('Index.js initialized!');
+    $(document).on('click', '.course-check', function (e) {
+        e.preventDefault();
+
+    });
 });
