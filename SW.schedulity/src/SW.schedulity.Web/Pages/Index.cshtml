@@ -1,16 +1,20 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.Localization
 @using SW.schedulity.Localization
+@using SW.schedulity.UserCourses;
 @using Volo.Abp.Users
+@using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating;
 @model SW.schedulity.Web.Pages.IndexModel
 @inject IHtmlLocalizer<schedulityResource> L
 @inject ICurrentUser CurrentUser
+@inject IUserCourseRepository UserCourseRepository
 @section styles {
 <abp-style src="/Pages/Index.css" />
 }
 @section scripts {
 <abp-script src="/Pages/Index.js" />
 }
+<input hidden id="userId" value="@CurrentUser.Id" />
     <div class="row">
         <div class="col-md-7">
             <div class="profile bg-gray radius">
@@ -33,23 +37,37 @@
         <div class="col-md-5">
             <div class="displine bg-gray radius">
                 <div class="align-items-center d-flex justify-content-center p-3 row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="cis">
                             <img src="images/discplineLogo.png" alt="">
                             <span>CIS</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="progress-">
-                            <img src="images/percentage.png" alt="">
-                            <a class="btn btn-dark">Manage</a>
+                    <div class="col-md-8">
+                    <div class="flex-wrapper justify-content-end">
+                                <div class="single-chart">
+                                    <svg viewBox="0 0 36 36" class="circular-chart circle-color">
+                                        <path class="circle-bg"
+                                              d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="circle"
+                                              stroke-dasharray="10, 100"
+                                              d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <text id="progress-as-percentage" x="18" y="20.35" class="percentage">
+                                        </text>
+                                    </svg>
+                                </div>
+                            <button class="btn btn-dark">Manage</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex p-2 justify-content-evenly">
                 <div class="align-items-center bg-gray col-md-5 courses-details d-flex justify-content-lg-around radius">
-                    <span class="num">@Model.UserCourses.Count</span>
+                    <span id="user-courses-count" class="num"></span>
                     <span class="detail">
                         courses<br>  completed
                     </span>
@@ -162,7 +180,7 @@
             </h2>
             <div id="flush-collapse-@_section.Id" class="accordion-collapse collapse" aria-labelledby="flush-heading-@_section.Id" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-                    @foreach (var course in Model.Courses)
+                    @foreach (var course in Model.Courses.Where(x=>x.SectionId == _section.Id))
                     {
                         <div class="Course">
                             <p>@course.Title</p>
@@ -181,13 +199,14 @@
         </div>
     }
     </div>
-    <div class="rating">
+
+<div class="rating">
         <p style="font-size: 25px;">Rate our Service</p>
-        <div class="stars">
-            <i class='bx bxs-star'></i>
-            <i class='bx bxs-star'></i>
-            <i class='bx bxs-star'></i>
-            <i class='bx bx-star'></i>
-            <i class='bx bx-star'></i>
+        <div>
+            @await Component.InvokeAsync(typeof(RatingViewComponent), new
+            {
+            entityType = "Schedulity",
+            entityId = CurrentUser.Id.ToString()
+            })
         </div>
     </div>

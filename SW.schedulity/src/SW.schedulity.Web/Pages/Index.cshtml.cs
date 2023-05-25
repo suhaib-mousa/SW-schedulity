@@ -25,7 +25,7 @@ public class IndexModel : schedulityPageModel
     public List<SectionDto> Sections { get; private set; }
     public List<CourseDto> Courses { get; private set; }
     public List<UserCourse> UserCourses { get; private set; }
-
+    public string ProgressAsPercentage => ((UserCourses.Count / Courses.Count) * 100).ToString() + "%";
     public async Task<IActionResult> OnGet()
     {
         if (CurrentUser.IsInRole("admin"))
