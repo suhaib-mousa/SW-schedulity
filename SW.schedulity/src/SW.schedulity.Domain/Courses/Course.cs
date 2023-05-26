@@ -17,5 +17,6 @@ namespace SW.schedulity.Courses
         public Section Section { get; set; }
         public Guid SectionId { get; set; }
         public CourseType CourseType { get; set; }
+        public Guid ParentId { get; set; }
     }
 }

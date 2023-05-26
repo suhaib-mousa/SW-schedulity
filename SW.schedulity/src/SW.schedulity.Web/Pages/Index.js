@@ -58,4 +58,23 @@ $(function () {
     });
 
     renderPage();
+
+    var ScheduleService = sW.schedulity.schedules.schedule;
+    var scheduleCourse;
+    
+    var generateSchedule = function (coursesNo, includeGeneral) {
+        scheduleCourse = ScheduleService.generate(coursesNo, includeGeneral);
+        console.log(scheduleCourse);
+    }
+    $('#generate').click(function () {
+        var hours = $('#hoursNO').val();
+        if (hours < 0 || hours > 18 || hours % 3 != 0) {
+            console.log(hours);
+            abp.notify.info(
+                'the hours number is invalid!'
+            );
+            return;
+        }
+        generateSchedule(hours, $('#include').is(':checked'));
+    });
 });

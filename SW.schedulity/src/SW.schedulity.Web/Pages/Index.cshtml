@@ -2,12 +2,15 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using SW.schedulity.Localization
 @using SW.schedulity.UserCourses;
+@using Volo.Abp.Features;
 @using Volo.Abp.Users
+@using Volo.CmsKit.GlobalFeatures;
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating;
 @model SW.schedulity.Web.Pages.IndexModel
 @inject IHtmlLocalizer<schedulityResource> L
 @inject ICurrentUser CurrentUser
 @inject IUserCourseRepository UserCourseRepository
+@inject IFeatureChecker FeatureChecker
 @section styles {
 <abp-style src="/Pages/Index.css" />
 }
@@ -87,8 +90,15 @@
                 <span>Courses &nbsp;&nbsp;&nbsp;</span>
                 Number of hours in the next semester:
             </p>
-            <input class="radius numberOfHours" type="text">
-            <a href="#" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate!</a>
+            <input id="hoursNO" class="radius numberOfHours" type="number" min="3" step="3" max="18" value="3">
+            <a id="generate" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate!</a>
+            <label class="checkboxContainer">
+                <input type="checkbox" id="include">
+                <span class="checkmark"></span>
+            </label>
+            <p>
+                Do you want include General Requirements?
+            </p>
             <!-- Modal -->
             <div class="modal  fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered d-flex flex-column pl-4">
@@ -100,7 +110,7 @@
 
                     </div>
                     <div class="modal-content" style="width: 185%;">
-                        <div class="modal-body">
+                        <div id="scheduleModal" class="modal-body">
                             <div class="Course-selected">
                                 <p>Theory</p>
                                 <div class="Hours">
@@ -156,17 +166,10 @@
                     </div>
                 </div>
             </div>
-            <label class="checkboxContainer">
-                <input type="checkbox" checked="checked">
-                <span class="checkmark"></span>
-            </label>
-            <p>
-                Do you want include General Requirements?
-            </p>
         </div>
     </div>
     <div class="accordion accordion-flush" id="accordionFlushExample">
-    @foreach (var _section in Model.Sections)
+    @foreach (var _section in Model.Sections.OrderBy(x=>x.order).ToList())
     {
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-heading-@_section.Id">
@@ -203,10 +206,12 @@
 <div class="rating">
         <p style="font-size: 25px;">Rate our Service</p>
         <div>
+  
             @await Component.InvokeAsync(typeof(RatingViewComponent), new
             {
             entityType = "Schedulity",
             entityId = CurrentUser.Id.ToString()
             })
+       
         </div>
     </div>

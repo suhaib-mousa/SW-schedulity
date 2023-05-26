@@ -151,8 +151,7 @@ $(function () {
             var coursesResponse = await getCourses();
             var courses = coursesResponse.items;
 
-            courses.sort((a, b) => a.order - b.order);
-
+            await courses.sort((a, b) => a.order - b.order);
             for (var j = 0; j < courses.length; j++) {
                 $('[data-section-id="' + courses[j].section.id + '"]').find('.accordion-body')
                     .append(
