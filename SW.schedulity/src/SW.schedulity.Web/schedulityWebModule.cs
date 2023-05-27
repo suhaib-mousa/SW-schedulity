@@ -40,6 +40,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theming;
 using Volo.CmsKit.Web;
+using Volo.CmsKit.Ratings;
 
 namespace SW.schedulity.Web;
 
@@ -96,6 +97,11 @@ namespace SW.schedulity.Web;
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+        Configure<CmsKitRatingOptions>(options =>
+        {
+            options.EntityTypes.Add(new RatingEntityTypeDefinition("Schedulity"));
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)

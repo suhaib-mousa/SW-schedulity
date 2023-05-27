@@ -1,16 +1,23 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.Localization
 @using SW.schedulity.Localization
+@using SW.schedulity.UserCourses;
+@using Volo.Abp.Features;
 @using Volo.Abp.Users
+@using Volo.CmsKit.GlobalFeatures;
+@using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating;
 @model SW.schedulity.Web.Pages.IndexModel
 @inject IHtmlLocalizer<schedulityResource> L
 @inject ICurrentUser CurrentUser
+@inject IUserCourseRepository UserCourseRepository
+@inject IFeatureChecker FeatureChecker
 @section styles {
 <abp-style src="/Pages/Index.css" />
 }
 @section scripts {
 <abp-script src="/Pages/Index.js" />
 }
+<input hidden id="userId" value="@CurrentUser.Id" />
     <div class="row">
         <div class="col-md-7">
             <div class="profile bg-gray radius">
@@ -33,23 +40,37 @@
         <div class="col-md-5">
             <div class="displine bg-gray radius">
                 <div class="align-items-center d-flex justify-content-center p-3 row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="cis">
                             <img src="images/discplineLogo.png" alt="">
                             <span>CIS</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="progress-">
-                            <img src="images/percentage.png" alt="">
-                            <a class="btn btn-dark">Manage</a>
+                    <div class="col-md-8">
+                    <div class="flex-wrapper justify-content-end">
+                                <div class="single-chart">
+                                    <svg viewBox="0 0 36 36" class="circular-chart circle-color">
+                                        <path class="circle-bg"
+                                              d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="circle"
+                                              stroke-dasharray="10, 100"
+                                              d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <text id="progress-as-percentage" x="18" y="20.35" class="percentage">
+                                        </text>
+                                    </svg>
+                                </div>
+                            <button class="btn btn-dark">Manage</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex p-2 justify-content-evenly">
                 <div class="align-items-center bg-gray col-md-5 courses-details d-flex justify-content-lg-around radius">
-                    <span class="num">23</span>
+                    <span id="user-courses-count" class="num"></span>
                     <span class="detail">
                         courses<br>  completed
                     </span>
@@ -69,8 +90,15 @@
                 <span>Courses &nbsp;&nbsp;&nbsp;</span>
                 Number of hours in the next semester:
             </p>
-            <input class="radius numberOfHours" type="text">
-            <a href="#" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate!</a>
+            <input id="hoursNO" class="radius numberOfHours" type="number" min="3" step="3" max="18" value="3">
+            <a id="generate" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate!</a>
+            <label class="checkboxContainer">
+                <input type="checkbox" id="include">
+                <span class="checkmark"></span>
+            </label>
+            <p>
+                Do you want include General Requirements?
+            </p>
             <!-- Modal -->
             <div class="modal  fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered d-flex flex-column pl-4">
@@ -82,7 +110,7 @@
 
                     </div>
                     <div class="modal-content" style="width: 185%;">
-                        <div class="modal-body">
+                        <div id="scheduleModal" class="modal-body">
                             <div class="Course-selected">
                                 <p>Theory</p>
                                 <div class="Hours">
@@ -138,234 +166,52 @@
                     </div>
                 </div>
             </div>
-            <label class="checkboxContainer">
-                <input type="checkbox" checked="checked">
-                <span class="checkmark"></span>
-            </label>
-            <p>
-                Do you want include General Requirements?
-            </p>
         </div>
     </div>
     <div class="accordion accordion-flush" id="accordionFlushExample">
+    @foreach (var _section in Model.Sections.OrderBy(x=>x.order).ToList())
+    {
         <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne">
-                <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    <p>Obligatory University Requirements</p>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    <div class="courseHours">
+            <h2 class="accordion-header" id="flush-heading-@_section.Id">
+                <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@_section.Id" aria-expanded="false" aria-controls="flush-collapse-@_section.Id">
+                    <p>@_section.Title</p>
+                    <div class="courseHours mx-auto">
                         <img src="images/clock.png" style="height:20px;" alt="">
-                        <span>18h</span>
-                    </div>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    <div class="courseHours">
-                        <img src="images/True.png" style="height:20px;" alt="">
-                        <span>3/6</span>
+                        <span>@(_section.NumberOfHours)h</span>
                     </div>
                 </button>
             </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div id="flush-collapse-@_section.Id" class="accordion-collapse collapse" aria-labelledby="flush-heading-@_section.Id" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-                    <div class="Course">
-                        efwefwefwefwefwefwefwef
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne2">
-                <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne2" aria-expanded="false" aria-controls="flush-collapseOne2">
-                    <p>Elective University Requirements</p>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    <div class="courseHours">
-                        <img src="images/clock.png" style="height:20px;" alt="">
-                        <span>9h</span>
-                    </div>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp
-                    <div class="courseHours">
-                        <img src="images/True.png" style="height:20px;" alt="">
-                        <span>1/3</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="flush-collapseOne2" class="accordion-collapse collapse" aria-labelledby="flush-headingOne2" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    <div class="Course">
-                        efwefwefwefwefwefwefwef
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne3">
-                <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne3" aria-expanded="false" aria-controls="flush-collapseOne3">
-                    <p>Obligatory Faculty Requirements</p>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    <div class="courseHours">
-                        <img src="images/clock.png" style="height:20px;" alt="">
-                        <span>24h</span>
-                    </div>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp
-                    <div class="courseHours">
-                        <img src="images/True.png" style="height:20px;" alt="">
-                        <span>8/8</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="flush-collapseOne3" class="accordion-collapse collapse" aria-labelledby="flush-headingOne3" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    <div class="Course">
-                        efwefwefwefwefwefwefwef
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne4">
-                <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne4" aria-expanded="false" aria-controls="flush-collapseOne4">
-                    <p>Obligatory Specialiaztion Requirements</p>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    <div class="courseHours">
-                        <img src="images/clock.png" style="height:20px;" alt="">
-                        <span>69h</span>
-                    </div>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    <div class="courseHours">
-                        <img src="images/True.png" style="height:20px;" alt="">
-                        <span>8/23</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="flush-collapseOne4" class="accordion-collapse collapse" aria-labelledby="flush-headingOne4" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    <div class="Course">
-                        efwefwefwefwefwefwefwef
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne5">
-                <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne5" aria-expanded="false" aria-controls="flush-collapseOne5">
-                    <p>Elective Specialiaztion Requirements</p>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp  &nbsp
-                    <div class="courseHours">
-                        <img src="images/clock.png" style="height:20px;" alt="">
-                        <span>12h</span>
-                    </div>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    <div class="courseHours">
-                        <img src="images/True.png" style="height:20px;" alt="">
-                        <span>2/4</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="flush-collapseOne5" class="accordion-collapse collapse" aria-labelledby="flush-headingOne5" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    <div class="Course">
-                        efwefwefwefwefwefwefwef
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne6">
-                <button class="accordion-button bg-gray my-2 p-4 radius collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne6" aria-expanded="false" aria-controls="flush-collapseOne6">
-                    <p>General Requirements</p>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp  &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp  &nbsp
-                    <div class="courseHours">
-                        <img src="images/clock.png" style="height:20px;" alt="">
-                        <span>0h</span>
-                    </div>
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                    &nbsp
-                    <div class="courseHours">
-                        <img src="images/True.png" style="height:20px;" alt="">
-                        <span>4/5</span>
-                    </div>
-                </button>
-            </h2>
-            <div id="flush-collapseOne6" class="accordion-collapse collapse" aria-labelledby="flush-headingOne6" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    <div class="Course">
-                        <p>Computer skills</p>
-                        <div class="Hours">
-                            <img src="images/clock.png" style="height:20px;" alt="">
-                            <span>0h</span>
+                    @foreach (var course in Model.Courses.Where(x=>x.SectionId == _section.Id))
+                    {
+                        <div class="Course">
+                            <p>@course.Title</p>
+                            <div class="Hours">
+                                <img src="images/clock.png" style="height:20px;" alt="">
+                                <span>@(course.NumberOfHours)h</span>
+                            </div>
+                            <label class="checkboxContainer">
+                                <input type="checkbox" class="course-check" data-course-id="@course.Id">
+                                <span class="checkmark"></span>
+                            </label>
                         </div>
-                        <label class="checkboxContainer">
-                            <input type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="Course">
-                        <p>English 99</p>
-                        <div class="Hours">
-                            <img src="images/clock.png" style="height:20px;" alt="">
-                            <span>0h</span>
-                        </div>
-                        <label class="checkboxContainer">
-                            <input type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="Course">
-                        <p>Arabic 100</p>
-                        <div class="Hours">
-                            <img src="images/clock.png" style="height:20px;" alt="">
-                            <span>0h</span>
-                        </div>
-                        <label class="checkboxContainer">
-                            <input type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="Course">
-                        <p>Arabic 99</p>
-                        <div class="Hours">
-                            <img src="images/clock.png" style="height:20px;" alt="">
-                            <span>0h</span>
-                        </div>
-                        <label class="checkboxContainer">
-                            <input type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="Course">
-                        <p>English 100</p>
-                        <div class="Hours">
-                            <img src="images/clock.png" style="height:20px;" alt="">
-                            <span>0h</span>
-                        </div>
-                        <label class="checkboxContainer">
-                            <input type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
+    }
     </div>
-    <div class="rating">
+
+<div class="rating">
         <p style="font-size: 25px;">Rate our Service</p>
-        <div class="stars">
-            <i class='bx bxs-star'></i>
-            <i class='bx bxs-star'></i>
-            <i class='bx bxs-star'></i>
-            <i class='bx bx-star'></i>
-            <i class='bx bx-star'></i>
+        <div>
+  
+            @await Component.InvokeAsync(typeof(RatingViewComponent), new
+            {
+            entityType = "Schedulity",
+            entityId = CurrentUser.Id.ToString()
+            })
+       
         </div>
     </div>
