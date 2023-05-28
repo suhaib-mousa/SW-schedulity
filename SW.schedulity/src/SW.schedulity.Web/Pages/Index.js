@@ -61,12 +61,51 @@ $(function () {
 
     var ScheduleService = sW.schedulity.schedules.schedule;
     var scheduleCourse;
-    
-    var generateSchedule = function (coursesNo, includeGeneral) {
-        scheduleCourse = ScheduleService.generate(coursesNo, includeGeneral);
+    var scheduleModal = $('#scheduleModal');
+    var replaceCount;
+    var generateSchedule = async function (coursesNo, includeGeneral) {
+        $('.change').css('display', 'block');
+        scheduleCourse = await ScheduleService.generate(coursesNo, includeGeneral);
+        replaceCount = scheduleCourse.restCourses.length;
+        var change = '<div class="change pointer"><img src="images/CHANGE.png" style="height:20px;" alt=""></div>';
+        if (replaceCount == 0) {
+            change = '';
+        }
         console.log(scheduleCourse);
+        scheduleModal.empty();
+        for (var i = 0; i < scheduleCourse.courses.length; i++) {
+            scheduleModal.append(
+                '<div class="Course-selected">' +
+                '<p class="title-co">' + scheduleCourse.courses[i].title + '</p>' +
+                '<div class="Hours">' +
+                '<img src="images/clock.png" style="height:20px;" alt="">' +
+                '<span>' + scheduleCourse.courses[i].numberOfHours + 'h</span>' +
+                '</div>' +
+                change +
+                '</div >'
+            );
+        }
+        $('.change').click(function () {
+            var change = $(this).closest('.Course-selected');
+            change.remove();
+            var replacedIndex = scheduleCourse.restCourses.length - replaceCount;
+            replaceCount--;
+            if (replaceCount == 0) {
+                $('.change').css('display', 'none');
+            }
+            scheduleModal.append(
+                '<div class="Course-selected">' +
+                '<p class="title-co">' + scheduleCourse.restCourses[replacedIndex].title + '</p>' +
+                '<div class="Hours">' +
+                '<img src="images/clock.png" style="height:20px;" alt="">' +
+                '<span>' + scheduleCourse.restCourses[replacedIndex].numberOfHours + 'h</span>' +
+                '</div>' +
+                '</div >'
+            );
+            scheduleCourse.restCourses[replacedIndex];
+        });
     }
-    $('#generate').click(function () {
+    $('#generate').click(async function () {
         var hours = $('#hoursNO').val();
         if (hours < 0 || hours > 18 || hours % 3 != 0) {
             console.log(hours);
@@ -75,6 +114,9 @@ $(function () {
             );
             return;
         }
-        generateSchedule(hours, $('#include').is(':checked'));
+        await generateSchedule(hours, $('#include').is(':checked'));
     });
+   
+   
+
 });

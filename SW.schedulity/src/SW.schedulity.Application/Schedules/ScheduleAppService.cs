@@ -32,48 +32,127 @@ namespace SW.schedulity.Schedules
         {
             numberOfCourses /= 3;
 
-            var scheduleCourseDto = new ScheduleCourseDto(); 
+            var scheduleCourseDto = new ScheduleCourseDto();
 
             var userCourses = await UserCourseRepository.GetListAsync(u => u.UserId == CurrentUser.Id);
             var courses = (await CourseRepository.GetListAsync(true)).Where(x => !userCourses.Any(u => u.CourseId == x.Id)).ToList();
 
+            var generalCourse = courses.Where(i => i.Section.SectionType == SectionType.GeneralRequirements && !userCourses.Any(x=>x.CourseId == i.Id)).ToList();
+            var co = ObjectMapper.Map<List<Course>, List<CourseDto>>(generalCourse);
             if (includeGeneralRequirement)
             {
-                var generalCourse =  courses.Where(i => i.Section.SectionType == SectionType.GeneralRequirements &&userCourses.Any(u => u.CourseId == i.ParentId)).ToList();
-                if (generalCourse != null)
+                if (generalCourse.Any())
                 {
-                    scheduleCourseDto.GeneralCourses = ObjectMapper.Map<List<Course>, List<CourseDto>>(generalCourse); 
+                    scheduleCourseDto.Courses.Add(co[0]);
+                    co.RemoveAt(0);
+                    if (co.Count > 0)
+                    {
+                        scheduleCourseDto.RestCourses.Add(co[0]);
+                    }
                 }
             }
 
             var universityRequirements = courses.Where(c =>
-            c.Section.SectionType == SectionType.ElectiveUniversityRequirements ||
-            c.Section.SectionType == SectionType.ObligatoryUniversityRequirements
+                c.Section.SectionType == SectionType.ElectiveUniversityRequirements ||
+                c.Section.SectionType == SectionType.ObligatoryUniversityRequirements
             ).ToList();
 
+            var co2 = ObjectMapper.Map<List<Course>, List<CourseDto>>(universityRequirements);
             if (universityRequirements.Any() && numberOfCourses > 9)
             {
-                scheduleCourseDto.UniversityCourses = ObjectMapper.Map<List<Course>, List<CourseDto>>(universityRequirements);
-                numberOfCourses -= 3;
+                scheduleCourseDto.Courses.Add(co2[0]);
+                co2.RemoveAt(0);
+                numberOfCourses--;
+                if (co2.Count > 0)
+                {
+                    scheduleCourseDto.RestCourses.Add(co2[0]);
+                    co2.RemoveAt(0);
+                }
             }
 
             var specialiaztionCourses = courses.Where(i => userCourses.Any(u => u.CourseId == i.ParentId) &&
-            i.Section.SectionType == SectionType.ObligatorySpecialiaztionRequirements ||
-            i.Section.SectionType == SectionType.ElectiveSpecialiaztionRequirements ||
-            i.Section.SectionType == SectionType.ObligatoryFacultyRequirements
-            ).OrderBy(x=>x.order)
+                (i.Section.SectionType == SectionType.ObligatorySpecialiaztionRequirements ||
+                 i.Section.SectionType == SectionType.ElectiveSpecialiaztionRequirements ||
+                 i.Section.SectionType == SectionType.ObligatoryFacultyRequirements)
+            ).OrderBy(x => x.order)
             .ToList();
-            if (specialiaztionCourses.Any(x=>x.CourseType == CourseType.practical))
-            {
-                scheduleCourseDto.NumberOfPracitcalCourses = numberOfCourses % 2 == 0 ? numberOfCourses / 2 : numberOfCourses / 2 + 1;
-            }
-            if (specialiaztionCourses.Any(x=>x.CourseType == CourseType.theoretical))
-            {
-                scheduleCourseDto.NumberOfTheoreticalCourses = numberOfCourses - scheduleCourseDto.NumberOfPracitcalCourses;
-            }
-            scheduleCourseDto.SpecialiaztionCourses = ObjectMapper.Map<List<Course>, List<CourseDto>>(specialiaztionCourses);
 
+            var co3 = ObjectMapper.Map<List<Course>, List<CourseDto>>(specialiaztionCourses);
+            if (specialiaztionCourses.Count > 0)
+            {
+                for (int i = 0; i < co3.Count; i++)
+                {
+                    var course = co3[i];
+                    scheduleCourseDto.Courses.Add(course);
+                    co3.RemoveAt(i);
+                    numberOfCourses--;
+                    if (numberOfCourses == 0)
+                    {
+                        break;
+                    }
+                    // Adjust the loop index if an item is removed
+                    i--;
+                }
+                if (numberOfCourses == 0)
+                {
+                    foreach (var c in co3)
+                    {
+                        scheduleCourseDto.RestCourses.Add(c);
+                    }
+
+                }
+            }
+            if (co3.Count > 0 && numberOfCourses > 0)
+            {
+                for (int i = 0; i < co3.Count; i++)
+                {
+                    var course = co3[i];
+                    scheduleCourseDto.Courses.Add(course);
+                    co3.RemoveAt(i);
+                    numberOfCourses--;
+                    if (numberOfCourses == 0)
+                    {
+                        break;
+                    }
+                    // Adjust the loop index if an item is removed
+                    i--;
+                }
+            }
+            if (co2.Count > 0 && numberOfCourses > 0)
+            {
+                for (int i = 0; i < co2.Count; i++)
+                {
+                    var course = co2[i];
+                    scheduleCourseDto.Courses.Add(course);
+                    co2.RemoveAt(i);
+                    numberOfCourses--;
+                    if (numberOfCourses == 0)
+                    {
+                        break;
+                    }
+                    // Adjust the loop index if an item is removed
+                    i--;
+                }
+            }
+
+            if (co.Count > 0 && includeGeneralRequirement && numberOfCourses > 0)
+            {
+                for (int i = 0; i < co.Count; i++)
+                {
+                    var course = co[i];
+                    scheduleCourseDto.Courses.Add(course);
+                    co.RemoveAt(i);
+                    numberOfCourses--;
+                    if (numberOfCourses == 0)
+                    {
+                        break;
+                    }
+                    // Adjust the loop index if an item is removed
+                    i--;
+                }
+            }
+            
             return scheduleCourseDto;
-        } 
+        }
     }
 }

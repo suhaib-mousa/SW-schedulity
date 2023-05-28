@@ -7,10 +7,7 @@ namespace SW.schedulity.Schedules;
 
 public class ScheduleCourseDto 
 {
-    public List<CourseDto> SpecialiaztionCourses { get; set; }
-    public int NumberOfPracitcalCourses { get; set; } = 0;
-    public int NumberOfTheoreticalCourses { get; set; } = 0;
-    public List<CourseDto> UniversityCourses { get; set; }
-    public List<CourseDto> GeneralCourses { get; set; }
+    public List<CourseDto> Courses { get; set; } = new List<CourseDto>();
+    public List<CourseDto> RestCourses { get; set; } = new List<CourseDto>();
 
 }
