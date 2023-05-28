@@ -86,13 +86,16 @@
     </div>
     <div class="row">
         <div class="controls d-flex justify-content-sm-around mt-5">
-            <p>
-                <span>Courses &nbsp;&nbsp;&nbsp;</span>
-                Number of hours in the next semester:
+        <p style="margin-right: 131px;">
+                <span>Courses</span>
             </p>
+                <p>
+
+                Number of hours in the next semester:
+                </p>
             <input id="hoursNO" class="radius numberOfHours" type="number" min="3" step="3" max="18" value="3">
             <a id="generate" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate!</a>
-            <label class="checkboxContainer">
+            <label class="checkboxContainer m-3">
                 <input type="checkbox" id="include">
                 <span class="checkmark"></span>
             </label>
@@ -111,58 +114,8 @@
                     </div>
                     <div class="modal-content" style="width: 185%;">
                         <div id="scheduleModal" class="modal-body">
-                            <div class="Course-selected">
-                                <p>Theory</p>
-                                <div class="Hours">
-                                    <img src="images/clock.png" style="height:20px;" alt="">
-                                    <span>0h</span>
-                                </div>
-                                <div class="change">
-                                    <img src="images/CHANGE.png" style="height:20px;" alt="">
-                                </div>
-                            </div>
-                            <div class="Course-selected">
-                                <p>HCI</p>
-                                <div class="Hours">
-                                    <img src="images/clock.png" style="height:20px;" alt="">
-                                    <span>0h</span>
-                                </div>
-                                <div class="change">
-                                    <img src="images/CHANGE.png" style="height:20px;" alt="">
-                                </div>
-                            </div>
-                            <div class="Course-selected">
-                                <p>OS</p>
-                                <div class="Hours">
-                                    <img src="images/clock.png" style="height:20px;" alt="">
-                                    <span>0h</span>
-                                </div>
-                                <div class="change">
-                                    <img src="images/CHANGE.png" style="height:20px;" alt="">
-                                </div>
-                            </div>
-                            <div class="Course-selected">
-                                <p>Multimedia</p>
-                                <div class="Hours">
-                                    <img src="images/clock.png" style="height:20px;" alt="">
-                                    <span>0h</span>
-                                </div>
-                                <div class="change">
-                                    <img src="images/CHANGE.png" style="height:20px;" alt="">
-                                </div>
-                            </div>
-                            <div class="Course-selected">
-                                <p>English 100</p>
-                                <div class="Hours">
-                                    <img src="images/clock.png" style="height:20px;" alt="">
-                                    <span>0h</span>
-                                </div>
-                                <div class="change">
-                                    <img src="images/CHANGE.png" style="height:20px;" alt="">
-                                </div>
-                            </div>
-                            <a href="#" class="btn btn-dark print mx-auto">Print</a>
                         </div>
+                    <a id="download-pdf" class="btn btn-dark print mx-auto">Print</a>
                     </div>
                 </div>
             </div>
@@ -215,3 +168,18 @@
        
         </div>
     </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+<script>
+    $(function(){
+        $('#download-pdf').click(function(){
+            let doc = new jsPDF('p', 'pt', 'a4');
+            doc.addHTML($('.modal'), function () {
+                doc.save('html.pdf');
+            });
+        });
+    });
+</script>
